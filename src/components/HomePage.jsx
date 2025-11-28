@@ -1,7 +1,7 @@
 import React from "react";
 import "./HomePage.css";
 import heroImg from "../assets/adarsh.png";
-import OccasionCategories from "./OccasionCategories.jsx";
+
 import WeddingCategories from "./WeddingCategories";
 import PopularSearches from "./PopularSearches";
 import FeaturedVendors from "./FeaturedVendors";
@@ -11,34 +11,37 @@ import Footer from "./Footer";
 const HomePage = () => {
   return (
     <>
-      <section className="hero">
-        <div className="hero-content">
-          <h1>
-          Your Perfect Event Starts Here. Find Top Vendors . <br />
-            <span>Instantly.</span>
+      {/* HERO SECTION */}
+      <section className="hero-section">
+
+        <div className="hero-left">
+          <h1 className="hero-title">
+            Your Perfect Event Starts Here. <br />
+            Find Top Vendors <span>Instantly.</span>
           </h1>
-          <p>
+
+          <p className="hero-subtext">
             Shop curated party essentials designed to make hosting effortless.
           </p>
 
-          <div className="hero-buttons">
-            <button className="browse-btn">Browse Shop</button>
-            <button className="plan-btn">Plan Your Party</button>
+          <div className="hero-btn-group">
+            <button className="primary-btn">Browse Shop</button>
+            <button className="outline-btn">Plan Your Party</button>
           </div>
         </div>
 
-        <div className="hero-image">
-          <img src={heroImg} alt="Party Girls" />
+        <div className="hero-right">
+          <img src={heroImg} alt="Event Banner" />
         </div>
+
       </section>
-      <OccasionCategories />
- 
+
+      {/* EXISTING SECTIONS */}
       <PopularSearches />
       <FeaturedVendors />
       <WeddingCategories />
       <GalleryLookFor />
       <Footer />
-    
     </>
   );
 };

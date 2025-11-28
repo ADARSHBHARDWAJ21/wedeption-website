@@ -28,17 +28,126 @@
   color: #6f6981;
 }
 
+/* ===== FILTER BAR ===== */
+.filter-bar-container {
+  max-width: 1200px;
+  margin: 0 auto 1.5rem;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 0.5rem;
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  flex-wrap: wrap;
+  overflow-x: auto;
+  position: relative;
+}
+
+.filter-dropdown-wrapper {
+  position: relative;
+}
+
+.filter-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1rem;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #333;
+  white-space: nowrap;
+  user-select: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.filter-dropdown:hover {
+  border-color: #d0d0d0;
+  background: #f9f9f9;
+}
+
+.filter-dropdown.active {
+  border-color: #ff6b9d;
+  background: #fff5f8;
+  color: #ff6b9d;
+}
+
+.filter-dropdown.open {
+  border-color: #ff6b9d;
+  background: #fff5f8;
+  color: #ff6b9d;
+}
+
+.filter-dropdown.open .dropdown-icon {
+  transform: rotate(180deg);
+}
+
+.dropdown-icon {
+  font-size: 0.7rem;
+  transition: transform 0.2s ease;
+}
+
+.filter-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+  padding: 0.5rem 0;
+}
+
+.dropdown-option {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #333;
+  transition: background 0.2s ease;
+  user-select: none;
+}
+
+.dropdown-option:hover {
+  background: #f5f5f5;
+}
+
+.dropdown-option input[type="checkbox"],
+.dropdown-option input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #ff6b9d;
+}
+
+.dropdown-option span {
+  flex: 1;
+}
+
+
 /* ===== LAYOUT ===== */
 .venues-layout {
   display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
+  grid-template-columns: 320px minmax(0, 1fr);
   gap: 1.8rem;
   max-width: 1200px;
   margin: 0 auto;
 }
 
 .venues-filter-panel {
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.95);
   border-radius: 24px;
   padding: 1.8rem;
   box-shadow: 0 25px 45px rgba(64, 38, 114, 0.08);
@@ -46,73 +155,142 @@
   position: sticky;
   top: 1.5rem;
   align-self: start;
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
 }
 
 .venues-filter-panel h3 {
-  margin: 0 0 1rem;
+  margin: 0 0 1.5rem;
   color: #201a32;
+  font-size: 1.3rem;
+  font-weight: 700;
 }
 
 .filter-group {
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.8rem;
+  padding-bottom: 1.8rem;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.3s ease;
+  padding: 1rem;
+  margin-left: -1rem;
+  margin-right: -1rem;
+  border-radius: 8px;
+}
+
+.filter-group:last-of-type {
+  border-bottom: none;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  margin-left: -1rem;
+  margin-right: -1rem;
 }
 
 .filter-title {
   font-weight: 600;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.9rem;
   color: #4a3b67;
+  font-size: 1rem;
 }
 
-.function-pill-group {
+.locality-search {
+  width: 100%;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid #d8cff0;
+  outline: none;
+  font-size: 0.9rem;
+  color: #42335f;
+  background: #fff;
+  margin-bottom: 0.8rem;
+}
+
+.locality-search:focus {
+  border-color: #5b2ecb;
+  box-shadow: 0 0 0 3px rgba(91, 46, 203, 0.1);
+}
+
+.filter-options {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 0.6rem;
 }
 
-.function-pill {
-  border: 1px solid #d8cff0;
-  border-radius: 999px;
-  padding: 0.4rem 0.9rem;
-  background: transparent;
-  font-size: 0.9rem;
-  color: #6d5c93;
+.filter-checkbox,
+.filter-radio {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  color: #333;
+  user-select: none;
 }
 
-.function-pill:hover,
-.function-pill.active {
-  background: #5b2ecb;
-  color: #fff;
-  border-color: #5b2ecb;
-  box-shadow: 0 12px 20px rgba(91, 46, 203, 0.25);
+.filter-checkbox input[type="checkbox"],
+.filter-radio input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #5b2ecb;
 }
 
-.filter-group select {
-  width: 100%;
-  padding: 0.55rem 0.8rem;
-  border-radius: 12px;
-  border: 1px solid #d8cff0;
-  outline: none;
-  font-size: 0.95rem;
-  color: #42335f;
-  background: #fff;
+.filter-checkbox span,
+.filter-radio span {
+  flex: 1;
+}
+
+.more-link {
+  background: none;
+  border: none;
+  color: #5b2ecb;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0.4rem 0;
+  text-align: left;
+  margin-top: 0.2rem;
+  transition: color 0.2s ease;
+}
+
+.more-link:hover {
+  color: #4a1fb8;
 }
 
 .reset-filter {
   width: 100%;
-  padding: 0.65rem 0.9rem;
+  padding: 0.75rem 0.9rem;
   border-radius: 12px;
   border: none;
   background: #ffe8f1;
   color: #b3447a;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, background 0.2s ease;
+  margin-top: 1rem;
+  font-size: 0.95rem;
 }
 
 .reset-filter:hover {
   transform: translateY(-1px);
+  background: #ffd9e8;
+}
+
+.show-more-filters {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border-radius: 12px;
+  border: none;
+  background: #ff6b9d;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.show-more-filters:hover {
+  transform: translateY(-1px);
+  background: #ff5a8a;
 }
 
 /* ===== VENUE LIST ===== */
@@ -225,7 +403,7 @@
   color: #6a5a8e;
 }
 
-/* ===== RESP ===== */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 1100px) {
   .venues-layout {
     grid-template-columns: 1fr;
@@ -233,12 +411,27 @@
 
   .venues-filter-panel {
     position: static;
+    max-height: none;
+  }
+
+  .filter-bar {
+    justify-content: flex-start;
   }
 }
 
 @media (max-width: 720px) {
   .venues-page-wrapper {
-    padding: 2rem 6vw;
+    padding: 2rem 4vw;
+  }
+
+  .filter-bar {
+    padding: 0.8rem;
+    gap: 0.4rem;
+  }
+
+  .filter-dropdown {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
   }
 
   .venue-card {
