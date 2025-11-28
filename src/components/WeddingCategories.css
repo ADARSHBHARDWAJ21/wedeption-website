@@ -1,0 +1,76 @@
+.wedding-categories {
+  margin: 4rem auto;
+  padding: 0 6vw;
+  max-width: 1200px;
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.4rem;
+}
+
+.section-label {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin: 0;
+  color: #2f1d3c;
+}
+
+.view-all {
+  border: none;
+  background: none;
+  color: #f10173;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.category-card {
+  min-height: 120px;
+  border-radius: 12px;
+  padding: 1.3rem 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 140px;
+  align-items: center;
+  overflow: hidden;
+}
+
+.category-text .category-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.category-text p {
+  margin: 0;
+  color: #4f3b46;
+  font-size: 0.9rem;
+}
+
+.category-image img {
+  width: 100%;
+  border-radius: 20px;
+  object-fit: cover;
+  height: 110px;
+}
+
+@media (max-width: 768px) {
+  .category-card {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+}
+
