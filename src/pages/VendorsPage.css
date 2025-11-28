@@ -1,7 +1,8 @@
 .vendors-page {
   width: 100%;
   padding: 2rem 5%;
-  background: #fdfbff;
+  /* CHANGE: From light pink/purple to light blue/white */
+  background: #f8faff; 
 }
 
 .categories-section {

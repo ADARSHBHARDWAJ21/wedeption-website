@@ -55,6 +55,7 @@
   position: absolute;
   top: 12px;
   right: 12px;
+  /* Keeping the rating badge color for high contrast/trust */
   background: #27c469;
   color: #fff;
   padding: 4px 10px;
@@ -78,7 +79,8 @@
 }
 
 .vendor-price {
-  color: #ff0f66;
+  /* CHANGE: From pink (#ff0f66) to blue */
+  color: #2563eb;
   font-weight: 700;
   margin: 0;
 }
@@ -111,4 +113,3 @@
     grid-template-columns: 1fr;
   }
 }
-

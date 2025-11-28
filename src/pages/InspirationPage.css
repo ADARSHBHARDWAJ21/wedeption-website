@@ -1,5 +1,6 @@
 .inspiration-page {
   padding: 32px 64px 80px;
+  /* Keeping light background for contrast with text */
   background: #faf7f4;
   min-height: 100vh;
   color: #2d2d2d;
@@ -19,7 +20,8 @@
 }
 
 .insp-eyebrow {
-  color: #ba5d5d;
+  /* CHANGE: From red to blue */
+  color: #2563eb;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -42,7 +44,8 @@
   padding: 12px 24px;
   border-radius: 999px;
   border: none;
-  background: #f04f4f;
+  /* CHANGE: From red to blue */
+  background: #2563eb;
   color: #fff;
   font-weight: 600;
   cursor: pointer;
@@ -51,7 +54,8 @@
 
 .insp-cta-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 25px rgba(240, 79, 79, 0.3);
+  /* CHANGE: Blue shadow */
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
 }
 
 .insp-tabs {
@@ -104,8 +108,9 @@
 }
 
 .insp-sort button.active {
-  background: #ffe9e0;
-  color: #d04343;
+  /* CHANGE: From red accent to blue accent */
+  background: #e8f3ff;
+  color: #2563eb;
 }
 
 .insp-search {
@@ -190,7 +195,8 @@
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #c06565;
+  /* CHANGE: From red to blue */
+  color: #2563eb;
   font-weight: 600;
 }
 
@@ -268,4 +274,3 @@
     aspect-ratio: 4 / 3;
   }
 }
-

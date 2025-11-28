@@ -6,7 +6,8 @@
 }
 
 .vendor-hero {
-  background: linear-gradient(135deg, #fff, #ffe9f4);
+  /* CHANGE: From pink gradient to light blue/white gradient */
+  background: linear-gradient(135deg, #fff, #e8f3ff);
   border-radius: 24px;
   padding: 36px 42px;
   display: flex;
@@ -20,7 +21,8 @@
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #c24f7a;
+  /* CHANGE: From pink color to blue */
+  color: #2563eb;
   font-weight: 600;
 }
 
@@ -130,7 +132,8 @@ textarea {
 .services-grid input[type="checkbox"] {
   width: 18px;
   height: 18px;
-  accent-color: #c24f7a;
+  /* CHANGE: From pink accent to blue */
+  accent-color: #2563eb;
 }
 
 .file-input input {
@@ -148,12 +151,14 @@ textarea {
   border: none;
   border-radius: 999px;
   padding: 14px 32px;
-  background: #d33d8c;
+  /* CHANGE: From pink to blue */
+  background: #2563eb;
   color: #fff;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 20px 45px rgba(211, 61, 140, 0.35);
+  /* CHANGE: Blue shadow */
+  box-shadow: 0 20px 45px rgba(37, 99, 235, 0.35);
 }
 
 .submit-success {
@@ -174,4 +179,3 @@ textarea {
     padding: 24px;
   }
 }
-

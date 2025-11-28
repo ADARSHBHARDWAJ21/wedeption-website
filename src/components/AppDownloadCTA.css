@@ -1,0 +1,167 @@
+.app-cta-section {
+    padding: 40px 64px;
+    background: #f6faff; /* Very light blue background */
+  }
+  
+  .cta-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  
+  .cta-content {
+    max-width: 50%;
+  }
+  
+  .cta-content h1 {
+    font-size: 2rem;
+    color: #1a1a1a;
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-weight: 700;
+  }
+  
+  .feature-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 30px;
+    margin-bottom: 30px;
+  }
+  
+  .feature-row p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: #333;
+    margin: 0;
+    font-size: 0.95rem;
+  }
+  
+  .feature-icon {
+    font-size: 1.1rem;
+  }
+  
+  .feature-icon.heart {
+    color: #ff6b9d; /* Pink accent for love/ideas */
+  }
+  
+  .feature-icon.store,
+  .feature-icon.list {
+    color: #2563eb; /* Blue accent for functionality */
+  }
+  
+  .sms-text {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 15px;
+  }
+  
+  .input-with-flag {
+    display: flex;
+    align-items: center;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    padding: 8px 12px;
+    background: #f0f0f0; /* Disabled/Coming Soon look */
+    margin-bottom: 20px;
+  }
+  
+  .country-code {
+    font-weight: 600;
+    margin-right: 10px;
+    color: #555;
+  }
+  
+  .input-with-flag input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 1rem;
+    color: #888;
+    cursor: not-allowed;
+  }
+  
+  .download-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: none;
+    background: #2563eb; /* Primary Blue */
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+    transition: opacity 0.2s;
+  }
+  
+  .download-btn.disabled-btn {
+      opacity: 0.5; /* Visual indicator for disabled/coming soon */
+      cursor: not-allowed;
+  }
+  
+  .store-icons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 20px;
+      color: #444;
+  }
+  
+  .store-icons .store-icon {
+      font-size: 2.2rem;
+  }
+  
+  
+  /* Mobile Mockup */
+  .cta-mockup-wrapper {
+    flex-shrink: 0;
+    max-width: 250px;
+  }
+  
+  .mobile-mockup {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  @media (max-width: 900px) {
+    .cta-container {
+      flex-direction: column;
+      text-align: center;
+      padding: 30px 20px;
+    }
+    
+    .cta-content {
+      max-width: 100%;
+    }
+  
+    .cta-content h1 {
+      font-size: 1.6rem;
+    }
+  
+    .feature-row {
+      justify-content: center;
+    }
+  
+    .cta-mockup-wrapper {
+      order: -1;
+      margin-bottom: 20px;
+    }
+  }
+  
+  @media (max-width: 600px) {
+      .app-cta-section {
+          padding: 30px 16px;
+      }
+  }

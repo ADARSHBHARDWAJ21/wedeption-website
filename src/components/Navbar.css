@@ -60,13 +60,15 @@
 }
 
 .nav-pill {
-  background: #44d6ff;
+  /* CHANGE: From cyan/blue to a solid blue accent */
+  background: #2563eb;
   color: #fff;
   font-weight: 600;
   font-size: 0.65rem;
   padding: 0.15rem 0.55rem;
   border-radius: 999px;
-  box-shadow: 0 6px 12px rgba(0, 180, 255, 0.35);
+  /* CHANGE: Blue shadow */
+  box-shadow: 0 6px 12px rgba(37, 99, 235, 0.35);
 }
 
 .nav-actions {

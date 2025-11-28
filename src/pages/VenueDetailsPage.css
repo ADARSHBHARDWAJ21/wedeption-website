@@ -1,13 +1,15 @@
 .venue-details-wrapper {
   width: 100%;
   padding: 2rem 6%;
-  background: #fbf8ff;
+  /* CHANGE: From lavender to light blue */
+  background: #fbfdff; 
 }
 
 .back-link {
   border: none;
   background: none;
-  color: #7c6cff;
+  /* CHANGE: From purple to blue */
+  color: #2563eb;
   font-weight: 600;
   margin-bottom: 1rem;
   cursor: pointer;
@@ -57,8 +59,10 @@
   display: inline-block;
   padding: 0.25rem 0.8rem;
   border-radius: 999px;
-  background: #f3f2ff;
-  color: #4c46a4;
+  /* CHANGE: From lavender to light blue */
+  background: #f3f7ff;
+  /* CHANGE: From purple to blue */
+  color: #2563eb;
   font-size: 0.85rem;
   margin-right: 0.4rem;
 }
@@ -72,7 +76,8 @@
   display: block;
   font-size: 2rem;
   font-weight: 700;
-  color: #ff6493;
+  /* CHANGE: From pink to blue */
+  color: #2563eb;
 }
 
 .hero-overview {
@@ -117,9 +122,11 @@
 }
 
 .primary-btn {
-  background: linear-gradient(135deg, #ff8ea5, #ff5f81);
+  /* CHANGE: From pink gradient to blue gradient */
+  background: linear-gradient(135deg, #4490ff, #2563eb);
   color: #fff;
-  box-shadow: 0 15px 30px rgba(255, 95, 129, 0.35);
+  /* CHANGE: Blue shadow */
+  box-shadow: 0 15px 30px rgba(37, 99, 235, 0.35);
 }
 
 .secondary-btn {
@@ -171,7 +178,8 @@
 .text-link {
   border: none;
   background: none;
-  color: #7c6cff;
+  /* CHANGE: From purple to blue */
+  color: #2563eb;
   cursor: pointer;
   font-weight: 600;
 }
@@ -223,13 +231,15 @@
   align-items: center;
   padding: 1rem;
   border-radius: 16px;
-  background: #fff4f7;
+  /* CHANGE: From pink background to light blue */
+  background: #f4f8ff;
   margin-bottom: 1rem;
 }
 
 .review-summary strong {
   font-size: 2.4rem;
-  color: #ff4f85;
+  /* CHANGE: From pink text to blue text */
+  color: #2563eb;
 }
 
 .muted {
@@ -253,8 +263,10 @@
 }
 
 .rating-chip {
-  background: #ffe0ea;
-  color: #c9305e;
+  /* CHANGE: From pink to light blue background */
+  background: #e8f3ff;
+  /* CHANGE: From dark pink text to dark blue text */
+  color: #2563eb;
   border-radius: 999px;
   padding: 0.3rem 0.9rem;
   font-weight: 600;
@@ -275,7 +287,8 @@
 .contact-card {
   padding: 1.5rem;
   border-radius: 20px;
-  background: linear-gradient(180deg, #fff, #fff6fa);
+  /* CHANGE: From pink gradient to light blue/white */
+  background: linear-gradient(180deg, #fff, #f6faff);
   box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
 }
 
@@ -288,7 +301,8 @@
 .starting-price-value {
   font-size: 1.4rem;
   font-weight: 700;
-  color: #e6397e;
+  /* CHANGE: From pink to blue */
+  color: #2563eb;
   margin: 0;
 }
 
@@ -321,12 +335,14 @@
 }
 
 .send-btn {
-  background: #ff3e75;
+  /* CHANGE: From pink to primary blue */
+  background: #2563eb;
   color: white;
 }
 
 .contact-btn {
-  background: #06b16e;
+  /* CHANGE: From green to dark blue */
+  background: #1d4ed8; 
   color: white;
 }
 
@@ -417,7 +433,8 @@
   width: 100%;
   padding: 0.9rem;
   margin-top: 1rem;
-  background: #ff2d79;
+  /* CHANGE: From pink to blue */
+  background: #2563eb;
   color: white;
   border-radius: 10px;
   border: none;
@@ -493,4 +510,3 @@
     grid-template-columns: 1fr;
   }
 }
-

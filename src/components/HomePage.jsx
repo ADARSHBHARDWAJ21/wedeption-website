@@ -1,3 +1,5 @@
+// src/components/HomePage.jsx
+
 import React from "react";
 import "./HomePage.css";
 import heroImg from "../assets/adarsh.png";
@@ -6,6 +8,8 @@ import WeddingCategories from "./WeddingCategories";
 import PopularSearches from "./PopularSearches";
 import FeaturedVendors from "./FeaturedVendors";
 import GalleryLookFor from "./GalleryLookFor";
+import RealWeddingStories from "./RealWeddingStories"; 
+import AppDownloadCTA from "./AppDownloadCTA"; // <-- IMPORT NEW COMPONENT
 import Footer from "./Footer";
 
 const HomePage = () => {
@@ -41,6 +45,8 @@ const HomePage = () => {
       <FeaturedVendors />
       <WeddingCategories />
       <GalleryLookFor />
+      <RealWeddingStories /> 
+      <AppDownloadCTA /> {/* <-- RENDER NEW CTA HERE */}
       <Footer />
     </>
   );

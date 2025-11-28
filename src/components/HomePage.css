@@ -21,7 +21,8 @@
 }
 
 .hero-title span {
-  color: #ec4899;
+  /* CHANGE: From pink to blue */
+  color: #2563eb;
 }
 
 /* SUBTEXT */
@@ -40,7 +41,8 @@
 }
 
 .primary-btn {
-  background: #fff;
+  /* CHANGE: From pink to blue */
+  background: #2563eb;
   color: #fff;
   border: none;
   padding: 0.85rem 1.8rem;
@@ -48,12 +50,14 @@
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 12px 30px rgba(236, 72, 153, 0.3);
+  /* CHANGE: Blue shadow */
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.3);
   transition: 0.3s;
 }
 
 .primary-btn:hover {
-  background: #db2777;
+  /* CHANGE: Darker blue on hover */
+  background: #1d4ed8;
 }
 
 .outline-btn {

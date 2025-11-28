@@ -1,116 +1,274 @@
-.site-footer {
-  background: #ffffff;
-  color: #f7f5f2;
-  padding: 60px 64px 40px;
-  font-family: "Inter", "Segoe UI", sans-serif;
-}
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 32px;
-  margin-bottom: 40px;
-}
-
-.site-footer h3 {
-  margin: 0 0 12px;
-  font-size: 26px;
-}
-
-.site-footer h4 {
-  margin-bottom: 10px;
-  font-size: 16px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #2563eb;
-}
-
-.site-footer p {
-  color: #030200;
-  line-height: 1.6;
-}
-
-.footer-social {
-  display: flex;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.footer-social a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #2563eb;
-  color: #110303;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.site-footer ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  color: #0f0801;
-}
-
-.site-footer a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.footer-newsletter {
-  display: flex;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.footer-newsletter input {
-  flex: 1;
-  border: none;
-  border-radius: 999px;
-  padding: 10px 16px;
-}
-
-.footer-newsletter button {
-  border: none;
-  border-radius: 999px;
-  padding: 10px 20px;
-  background: #2563eb;
-  color: #1a0303;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  color: #1b0f03;
+.site-footer.new-design {
+  background: #ffffff; /* White background */
+  color: #585858;
+  padding: 40px 6vw 20px;
+  font-family: "Poppins", "Segoe UI", sans-serif;
+  border-top: 1px solid #efefef;
   font-size: 14px;
 }
 
-.footer-bottom-links {
+/* --- TOP SECTION (Grid Layout) --- */
+.footer-top-section {
+  display: grid;
+  grid-template-columns: minmax(200px, 1fr) minmax(250px, 1.5fr) minmax(180px, 1fr) minmax(180px, 1fr);
+  gap: 30px 40px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #efefef;
+}
+
+.footer-column {
+  /* Default min-width managed by grid, but good fallback */
+  min-width: 150px;
+}
+
+.footer-brand-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0 0 5px;
+  color: #333;
+}
+
+.footer-sub-text {
+  font-size: 0.9rem;
+  margin: 0 0 20px;
+}
+
+.column-header {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+}
+
+/* Contact Column */
+.contact-details {
   display: flex;
-  gap: 16px;
+  gap: 25px;
 }
 
+.contact-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin: 0 0 5px;
+}
+
+.contact-column a {
+  display: block;
+  font-size: 0.9rem;
+  /* CHANGE: Blue accent for email links */
+  color: #2563eb; 
+  margin-bottom: 2px;
+}
+
+.contact-phone {
+  font-size: 0.9rem;
+  margin: 0;
+  color: #585858;
+}
+
+/* Social & App Columns */
+.social-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.social-list li {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.social-list a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #585858;
+}
+
+.social-list a:hover {
+  color: #2563eb;
+}
+
+.app-column .app-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  background: #111;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+.app-column .app-link svg {
+    font-size: 1.1rem;
+}
+
+/* Address & Blog Alerts */
+.address-column {
+    /* Spanning columns for better layout separation */
+    grid-column: 1 / span 2; 
+}
+.blog-register-column {
+    /* Spanning columns for better layout separation */
+    grid-column: 3 / span 2; 
+}
+
+.address-column address {
+  font-style: normal;
+  line-height: 1.4;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.blog-form {
+  display: flex;
+  gap: 0;
+  margin-bottom: 15px;
+}
+
+.blog-form input {
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  font-size: 0.9rem;
+  min-width: 150px;
+}
+
+.blog-form .submit-btn {
+  padding: 8px 15px;
+  border: none;
+  /* CHANGE: Blue button */
+  background: #2563eb;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+.vendor-register-btn {
+  padding: 8px 15px;
+  /* CHANGE: Blue border/text button */
+  border: 1px solid #2563eb;
+  background: #fff;
+  color: #2563eb;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.vendor-register-btn:hover {
+    background: #2563eb;
+    color: #fff;
+}
+
+
+/* --- BOTTOM NAV SECTION --- */
+.footer-bottom-nav {
+  display: flex;
+  justify-content: flex-start;
+  gap: 30px;
+  flex-wrap: wrap;
+  padding-top: 30px;
+}
+
+.nav-group {
+    min-width: 150px;
+    padding-right: 15px;
+}
+/* Adjust layout for large middle columns */
+.nav-group:nth-child(3) { /* Photo Gallery */
+    min-width: 200px;
+}
+.nav-group:nth-child(4) { /* Home/Info */
+    min-width: 220px;
+}
+
+.nav-title {
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+}
+
+.nav-group ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-group li {
+  margin-bottom: 6px;
+}
+
+.nav-group a {
+  color: #585858;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.nav-group a:hover {
+  text-decoration: underline;
+  color: #2563eb;
+}
+
+/* --- RESPONSIVE ADJUSTMENTS --- */
+@media (max-width: 1050px) {
+    .footer-top-section {
+        grid-template-columns: repeat(2, minmax(200px, 1fr));
+    }
+    /* Reset spans for smaller screens */
+    .address-column,
+    .blog-register-column {
+        grid-column: auto / span 1; 
+    }
+    .contact-details {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
 @media (max-width: 768px) {
-  .site-footer {
-    padding: 40px 20px;
-  }
-
-  .footer-newsletter {
-    flex-direction: column;
-  }
+    .site-footer.new-design {
+        padding: 30px 4vw 20px;
+    }
+    .footer-top-section {
+        grid-template-columns: 1fr;
+    }
+    .footer-column {
+        min-width: 100%;
+        text-align: center;
+    }
+    .contact-details {
+        flex-direction: row;
+        justify-content: center;
+        gap: 30px;
+    }
+    .social-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    .social-list li {
+        width: 40%;
+        text-align: left;
+    }
+    .app-column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .app-column .app-link {
+        width: 200px;
+    }
+    .blog-form {
+        justify-content: center;
+    }
+    .footer-bottom-nav {
+        justify-content: space-around;
+    }
 }
-
