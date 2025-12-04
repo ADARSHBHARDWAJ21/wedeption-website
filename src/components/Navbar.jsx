@@ -8,7 +8,7 @@ const menuItems = [
   { label: "venues", hasDropdown: true, path: "/venues" },
   { label: "inspiration", hasDropdown: true, path: "/inspiration" },
   { label: "ai planner", hasDropdown: true, path: "/ai-planner" },
-  { label: "vender registration", isNew: true, path: "/vendor-registration" },
+  { label: "vendor login", isNew: true, path: "/vendor-login" },
 ];
 
 const Navbar = () => {

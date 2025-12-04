@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom"; 
 import "./VenuesPage.css";
 import venues from "../Data/venuesData";
 
@@ -69,19 +69,21 @@ const ratingOptions = [
 ];
 
 const VenuesPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [localitySearch, setLocalitySearch] = useState("");
   const [selectedLocalities, setSelectedLocalities] = useState([]);
   const [selectedGuests, setSelectedGuests] = useState([]);
   const [selectedRoomCounts, setSelectedRoomCounts] = useState([]);
   const [selectedPriceRanges, setSelectedPriceRanges] = useState([]);
   const [selectedRentalCost, setSelectedRentalCost] = useState(null);
-  const [selectedVenueTypes, setSelectedVenueTypes] = useState([]);
+  const [selectedVenueTypes, setSelectedVenueTypes] = useState([]); 
   const [selectedSpaces, setSelectedSpaces] = useState([]);
   const [selectedRating, setSelectedRating] = useState(null);
   const [showMoreFilters, setShowMoreFilters] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
 
-  // Refs for filter sections
+  // Refs for filter sections (remains unchanged)
   const localityRef = useRef(null);
   const guestsRef = useRef(null);
   const roomCountRef = useRef(null);
@@ -91,7 +93,43 @@ const VenuesPage = () => {
   const spaceRef = useRef(null);
   const ratingRef = useRef(null);
 
-  // Close dropdown when clicking outside
+
+  // --- FIX: EFFECT TO READ URL PARAMETERS AND APPLY FILTERS ON LOAD ---
+  useEffect(() => {
+    const filterValue = searchParams.get('filter');
+    const categoryType = searchParams.get('category');
+    
+    // 1. Check if we have incoming URL filters for Venues
+    if (filterValue && categoryType === "Venues") {
+        const decodedFilter = decodeURIComponent(filterValue);
+        
+        // FIX: Only call setState if the current state is different to prevent cascade
+        if (venueTypes.includes(decodedFilter)) {
+            
+            const isFilterApplied = selectedVenueTypes.length === 1 && selectedVenueTypes[0] === decodedFilter;
+            
+            if (!isFilterApplied) {
+                // FIX: Setting state is safe here because the conditional check prevents unnecessary renders
+                setSelectedVenueTypes([decodedFilter]);
+            }
+        }
+        
+        // 2. Clear URL parameters *only if they exist* to prevent cascade
+        if (searchParams.has('filter') || searchParams.has('category')) {
+            const newSearchParams = new URLSearchParams(searchParams);
+            newSearchParams.delete('filter');
+            newSearchParams.delete('category');
+            
+            // Calling setSearchParams triggers a re-render/re-run of useEffect.
+            // The logic above ensures this re-run doesn't infinitely set state.
+            setSearchParams(newSearchParams, { replace: true });
+        }
+    }
+    // Dependency array ensures safety: selectedVenueTypes is used in the comparison, 
+    // and searchParams triggers the check.
+  }, [searchParams, setSearchParams, selectedVenueTypes]); 
+
+  // Close dropdown when clicking outside (remains unchanged)
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (openDropdown && !event.target.closest('.filter-dropdown-wrapper')) {
@@ -202,7 +240,7 @@ const VenuesPage = () => {
         }
       }
 
-      // Venue type filter
+      // Venue type filter 
       if (
         selectedVenueTypes.length > 0 &&
         !selectedVenueTypes.includes(venue.venueType)
@@ -231,7 +269,7 @@ const VenuesPage = () => {
     selectedRoomCounts,
     selectedPriceRanges,
     selectedRentalCost,
-    selectedVenueTypes,
+    selectedVenueTypes, 
     selectedSpaces,
     selectedRating,
   ]);
@@ -323,6 +361,9 @@ const VenuesPage = () => {
                     <span>{locality}</span>
                   </label>
                 ))}
+                {filteredLocalities.length > 6 && (
+                  <button className="more-link">More ▸</button>
+                )}
               </div>
             )}
           </div>

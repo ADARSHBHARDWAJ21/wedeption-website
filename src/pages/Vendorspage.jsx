@@ -1,6 +1,20 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom"; // Import Link
 import "./VendorsPage.css";
 import categoriesData from "../Data/categoriesData.js";
+
+// Helper function to generate the correct URL based on category
+const createFilterUrl = (mainCategory, option) => {
+    // If it's a 'View All...' link, link directly to the main page without filters.
+    if (option.startsWith("View All")) {
+        // Assume 'Venues' links to /venues, others link elsewhere or back to /vendors
+        return mainCategory === "Venues" ? "/venues" : "/vendors";
+    }
+
+    // For all specific sub-category options, pass a filter parameter.
+    // The VenuesPage component will check the 'category' to determine the correct filter type (e.g., venueType).
+    return `/venues?category=${mainCategory}&filter=${encodeURIComponent(option)}`;
+};
 
 const VendorsPage = () => {
   const [expandedCategory, setExpandedCategory] = useState(null);
@@ -23,6 +37,7 @@ const VendorsPage = () => {
         <div className="categories-grid">
           {categoriesData.map((cat) => {
             const isExpanded = expandedCategory === cat.title;
+            
             return (
               <div key={cat.title}>
                 <button
@@ -49,7 +64,15 @@ const VendorsPage = () => {
                     {cat.options.map((column, idx) => (
                       <ul key={idx}>
                         {column.map((option) => (
-                          <li key={option}>{option}</li>
+                          <li key={option}>
+                            {/* Use Link component to navigate with filter parameters */}
+                            <Link 
+                                to={createFilterUrl(cat.title, option)}
+                                className={option.startsWith("View All") ? "view-all-link" : ""}
+                            >
+                                {option}
+                            </Link>
+                          </li>
                         ))}
                       </ul>
                     ))}

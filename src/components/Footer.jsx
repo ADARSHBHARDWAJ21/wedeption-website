@@ -1,5 +1,6 @@
 import React from "react";
 import "./Footer.css";
+import { Link } from "react-router-dom";
 import { FaFacebookF, FaTwitter, FaPinterestP, FaInstagram, FaYoutube, FaApple, FaGooglePlay } from "react-icons/fa";
 
 // --- Footer Link Data (Mimicking the image content) ---
@@ -112,7 +113,9 @@ const Footer = () => {
                     <input type="email" placeholder="Email" required />
                     <button type="submit" className="submit-btn">Submit</button>
                 </form>
-                <button className="vendor-register-btn">Register as a Vendor</button>
+                <Link to="/vendor-registration" className="vendor-register-btn">
+                  Register as a Vendor
+                </Link>
             </div>
         </div>
 

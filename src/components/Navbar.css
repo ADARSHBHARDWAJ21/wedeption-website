@@ -3,7 +3,8 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background: #FFFDF8;
+  background: 
+  #e2e1df;
   padding: 1rem 3.5rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.03);
 }
