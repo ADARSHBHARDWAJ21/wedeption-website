@@ -1,0 +1,248 @@
+/* ============================
+   Vendor Login Page
+   ============================ */
+
+.vendor-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 0;
+  position: relative;
+}
+
+.vendor-hero {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 80px 24px 60px;
+  text-align: center;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.vendor-hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.vendor-hero > div {
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.vendor-eyebrow {
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 16px 0;
+}
+
+.vendor-hero h1 {
+  font-size: 42px;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+  letter-spacing: -1px;
+  line-height: 1.2;
+}
+
+.vendor-hero p {
+  font-size: 17px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.vendor-form {
+  max-width: 600px;
+  margin: -40px auto 0;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 2;
+}
+
+.vendor-form section {
+  margin-bottom: 32px;
+}
+
+.vendor-form section:last-of-type {
+  margin-bottom: 0;
+}
+
+.vendor-form h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 24px 0;
+  letter-spacing: -0.3px;
+}
+
+.form-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.form-grid.two {
+  grid-template-columns: 1fr;
+}
+
+.form-grid label {
+  display: block;
+}
+
+.form-grid label.full {
+  grid-column: 1 / -1;
+}
+
+.form-grid label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.form-grid input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 15px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #111827;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.form-grid input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-grid input::placeholder {
+  color: #9ca3af;
+}
+
+.form-actions {
+  margin-top: 32px;
+}
+
+.form-actions button {
+  width: 100%;
+  padding: 14px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.form-actions button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.form-actions button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.form-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.vendor-help-btn {
+  width: 100%;
+  padding: 14px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  background: #ffffff;
+  color: #667eea;
+  border: 2px solid #667eea;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  margin-top: 12px;
+}
+
+.vendor-help-btn:hover {
+  background: #667eea;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.vendor-help-btn:active {
+  transform: translateY(0);
+}
+
+.vendor-form p {
+  font-size: 15px;
+  color: #6b7280;
+  margin: 0 0 8px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .vendor-hero {
+    padding: 60px 20px 50px;
+  }
+
+  .vendor-hero h1 {
+    font-size: 32px;
+  }
+
+  .vendor-hero p {
+    font-size: 15px;
+  }
+
+  .vendor-form {
+    margin: -30px 20px 0;
+    padding: 32px 24px;
+    border-radius: 16px;
+  }
+
+  .vendor-form h2 {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .vendor-hero {
+    padding: 50px 16px 40px;
+  }
+
+  .vendor-hero h1 {
+    font-size: 28px;
+  }
+
+  .vendor-form {
+    margin: -20px 16px 0;
+    padding: 24px 20px;
+  }
+}
+

@@ -1,0 +1,65 @@
+.vp-page {
+  min-height: 100vh;
+  background: #f3f4f6;
+  padding: 40px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vp-card {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  padding: 24px;
+  border-radius: 14px;
+  box-shadow: 0 14px 30px rgba(0,0,0,0.12);
+}
+
+.vp-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.vp-section {
+  margin-bottom: 20px;
+}
+
+.vp-section h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #374151;
+}
+
+.vp-plan {
+  font-size: 16px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.vp-price {
+  font-size: 15px;
+  color: #4b5563;
+  margin-top: 4px;
+}
+
+.vp-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 50px;
+  background: #111827;
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+.vp-btn:hover {
+  background: #0f172a;
+}

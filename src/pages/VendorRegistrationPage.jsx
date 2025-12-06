@@ -1,479 +1,545 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./VendorRegistrationPage.css";
+import { logout } from "../firebase";
 
-const serviceOptions = [
+const initialFormState = {
+  // Section A – Basic Business Details
+  businessName: "",
+  contactPerson: "",
+  email: "",
+  phone: "",
+  whatsapp: "",
+  city: "",
+  gstNumber: "",
+  address: "",
+
+  // Section B – Professional Information
+  experience: "",
+  services: [],
+  priceRange: "",
+
+  // Section C – Online Presence
+  website: "",
+  instagram: "",
+  facebook: "",
+  youtube: "",
+
+  // Section D – Portfolio
+  portfolioFiles: [],
+  portfolioPreviews: [],
+
+  // Section E – Highlights
+  highlightTitle: "",
+  whyChooseUs: "",
+  offers: "",
+
+  // Section F – Charges & Terms
+  userCancellationPolicy: "",
+  vendorCancellationPolicy: "",
+  paymentTerms: "",
+};
+
+const SERVICE_OPTIONS = [
   "Catering",
-  "Photographer / Videographer",
-  "Makeup Artist",
-  "Wedding Hall",
-  "Decorator",
-  "DJ",
-  "Mehendi Artist",
-  "Event Planner",
+  "Mehndi",
+  "Makeup",
+  "Photography",
+  "Decoration",
+  "DJ / Music",
+  "Venue",
+  "Pandit / Purohit",
 ];
 
-const cleanOptionalString = (value) => {
-  return !value || value.trim() === "" ? null : value;
-};
+const PRICE_RANGE_OPTIONS = [
+  "₹0 – ₹50,000",
+  "₹50,000 – ₹1,00,000",
+  "₹1,00,000 – ₹2,50,000",
+  "₹2,50,000 – ₹5,00,000",
+  "₹5,00,000+",
+];
 
-// Helper to send OTP using Fast2SMS
-const sendOtpViaFast2Sms = async (phoneNumber, otp) => {
-  const FAST2SMS_API_KEY = "YOUR_FAST2SMS_API_KEY"
-  ; // TODO: replace with your real key (prefer .env)
-  const TEMPLATE_ID = "YOUR_DLT_TEMPLATE_ID"; // TODO: replace with your registered template ID
+const EXPERIENCE_OPTIONS = [
+  "0–1 Years",
+  "1–3 Years",
+  "3–5 Years",
+  "5–10 Years",
+  "10+ Years",
+];
 
-  const params = new URLSearchParams({
-    authorization: FAST2SMS_API_KEY,
-    route: "dlt",
-    sender_id: "YOURID", // replace with your approved sender ID
-    message: TEMPLATE_ID,
-    variables_values: otp,
-    numbers: phoneNumber,
-    flash: "0",
-  });
+const VendorRegister = () => {
+  const navigate = useNavigate();
+  const [vendorUser, setVendorUser] = useState(null);
+  const [form, setForm] = useState(initialFormState);
+  const [submitting, setSubmitting] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
 
-  const url = `https://www.fast2sms.com/dev/bulkV2?${params.toString()}`;
+  // Handle logout
+  const handleLogout = async () => {
+    if (window.confirm("Are you sure you want to logout? Your form data will be saved locally.")) {
+      try {
+        setLoggingOut(true);
+        await logout();
+        navigate("/vendor/auth");
+      } catch (error) {
+        console.error("Logout error:", error);
+        // Even if Firebase logout fails, clear local storage and redirect
+        localStorage.removeItem("wedeption_vendor_user");
+        navigate("/vendor/auth");
+      } finally {
+        setLoggingOut(false);
+      }
+    }
+  };
 
-  const response = await fetch(url, {
-    method: "GET",
-  });
+  // Protect this page – only allow if vendor is authenticated
+  useEffect(() => {
+    const stored = localStorage.getItem("wedeption_vendor_user");
+    if (!stored) {
+      navigate("/vendor/auth");
+      return;
+    }
+    const parsed = JSON.parse(stored);
+    setVendorUser(parsed);
 
-  if (!response.ok) {
-    throw new Error("Failed to send OTP via Fast2SMS");
+    // Pre-fill email/phone if available
+    setForm((prev) => ({
+      ...prev,
+      email: parsed.email || "",
+      phone: parsed.phone || "",
+      contactPerson: parsed.fullName || "",
+    }));
+  }, [navigate]);
+
+  // Generic input change handler
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // Checkbox handler for "services"
+  const handleServiceToggle = (service) => {
+    setForm((prev) => {
+      const exists = prev.services.includes(service);
+      if (exists) {
+        return {
+          ...prev,
+          services: prev.services.filter((s) => s !== service),
+        };
+      } else {
+        return {
+          ...prev,
+          services: [...prev.services, service],
+        };
+      }
+    });
+  };
+
+  // File upload (portfolio)
+  const handlePortfolioChange = (e) => {
+    const files = Array.from(e.target.files || []);
+    const previews = files.map((file) => URL.createObjectURL(file));
+
+    setForm((prev) => ({
+      ...prev,
+      portfolioFiles: files,
+      portfolioPreviews: previews,
+    }));
+  };
+
+  // Submit (for now: only frontend, no Supabase yet)
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+
+    // For now just log form data; backend integration will come later
+    console.log("Vendor registration form submitted (frontend only):", form);
+
+    setTimeout(() => {
+      alert(
+        "Form submitted (frontend only).\nLater this will be connected to Supabase + admin review."
+      );
+      setSubmitting(false);
+
+      // Navigate to subscription page (UI only)
+      navigate("/vendor/subscription");
+    }, 600);
+  };
+
+  if (!vendorUser) {
+    // while redirecting or loading
+    return null;
   }
 
-  return response.json();
-};
-
-const VendorRegistrationPage = () => {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    businessName: "",
-    contactPerson: "",
-    email: "",
-    phone: "",
-    whatsapp: "",
-    city: "",
-    address: "",
-    gstNumber: "",
-    panCardNumber: "",
-    experience: "",
-    priceRange: "",
-    services: [],
-    website: "",
-    instagram: "",
-    facebook: "",
-    youtube: "",
-    brandStory: "",
-    whyUs: "",
-    deals: "",
-    overtime: "",
-    paymentTerms: "",
-    userCancellation: "",
-    vendorCancellation: "",
-  });
-
-  const [submitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [apiError, setApiError] = useState(null); // FIXED
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-
-    if (type === "checkbox" && name === "services") {
-      setFormData((prev) => ({
-        ...prev,
-        services: checked
-          ? [...prev.services, value]
-          : prev.services.filter((s) => s !== value),
-      }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setApiError(null);
-
-    try {
-      // Validate required fields
-      if (!formData.businessName.trim() || 
-          !formData.contactPerson.trim() || 
-          !formData.email.trim() || 
-          !formData.phone.trim() || 
-          !formData.city.trim() || 
-          !formData.instagram.trim() || 
-          !formData.whyUs.trim()) {
-        setApiError("Please fill in all required fields.");
-        setLoading(false);
-        return;
-      }
-
-      // Build form data object
-      const vendorData = {
-        business_name: formData.businessName.trim(),
-        contact_name: formData.contactPerson.trim(),
-        email: formData.email.trim(),
-        contact_number: formData.phone.trim(),
-        business_address: formData.address.trim(),
-        gst_number: cleanOptionalString(formData.gstNumber),
-        pan_card_number: cleanOptionalString(formData.panCardNumber),
-        city: formData.city.trim(),
-        instagram: formData.instagram.trim(),
-        why_us: formData.whyUs.trim(),
-        
-        // Optional fields
-        whatsapp: cleanOptionalString(formData.whatsapp),
-        website: cleanOptionalString(formData.website),
-        facebook: cleanOptionalString(formData.facebook),
-        youtube: cleanOptionalString(formData.youtube),
-        brand_story: cleanOptionalString(formData.brandStory),
-        deals: cleanOptionalString(formData.deals),
-        overtime: cleanOptionalString(formData.overtime),
-        payment_terms: cleanOptionalString(formData.paymentTerms),
-        user_cancellation: cleanOptionalString(formData.userCancellation),
-        vendor_cancellation: cleanOptionalString(formData.vendorCancellation),
-        price_range: cleanOptionalString(formData.priceRange),
-        
-        // Numeric fields
-        experience: formData.experience ? parseInt(formData.experience, 10) : null,
-        
-        // Services array
-        services: formData.services.length > 0 ? formData.services : [],
-      };
-
-      // Generate OTP
-      const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
-
-      // Send OTP via Fast2SMS
-      try {
-        await sendOtpViaFast2Sms(formData.phone.trim(), generatedOtp);
-        console.log("OTP sent successfully");
-      } catch (otpError) {
-        console.error("Error sending OTP:", otpError);
-        setApiError("Could not send OTP. Please check the phone number and try again.");
-        setLoading(false);
-        return;
-      }
-
-      setLoading(false);
-
-      // Navigate to OTP verification page with data
-      navigate("/vendor-otp", {
-        state: {
-          phone: formData.phone.trim(),
-          otp: generatedOtp,
-          vendorData,
-        },
-      });
-    } catch (error) {
-      setLoading(false);
-      console.error("Unexpected error:", error);
-      setApiError("An unexpected error occurred. Please try again.");
-    }
-  };
-
   return (
-    <div className="vendor-page">
-      <div className="vendor-hero">
-        <div>
-          <p className="vendor-eyebrow">Partner with Us</p>
-          <h1>Register Your Wedding Business</h1>
-          <p>
-            Share a few details about your brand so we can showcase you to
-            couples planning unforgettable celebrations.
-          </p>
-        </div>
-        <button className="vendor-help-btn">Need help? Chat with us</button>
-      </div>
-
-      <form className="vendor-form" onSubmit={handleSubmit}>
-        {apiError && <div className="submission-error">Error: {apiError}</div>}
-
-        <section>
-          <h2>1. Basic Business Details</h2>
-          <div className="form-grid two">
-            <label>
-              Business Name
-              <input
-                type="text"
-                name="businessName"
-                value={formData.businessName}
-                onChange={handleChange}
-                required
-              />
-            </label>
-            <label>
-              Contact Person
-              <input
-                type="text"
-                name="contactPerson"
-                value={formData.contactPerson}
-                onChange={handleChange}
-                required
-              />
-            </label>
-            <label>
-              Email
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-            </label>
-            <label>
-              Phone Number
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-              />
-            </label>
-            <label>
-              WhatsApp Number
-              <input
-                type="tel"
-                name="whatsapp"
-                value={formData.whatsapp}
-                onChange={handleChange}
-              />
-            </label>
-            <label>
-              City
-              <input
-                type="text"
-                name="city"
-                value={formData.city}
-                onChange={handleChange}
-                required
-              />
-            </label>
-            <label>
-              GST Number
-              <input
-                type="text"
-                name="gstNumber"
-                value={formData.gstNumber}
-                onChange={handleChange}
-              />
-            </label>
-            <label>
-              PAN Card Number
-              <input
-                type="text"
-                name="panCardNumber"
-                value={formData.panCardNumber}
-                onChange={handleChange}
-              />
-            </label>
+    <div className="vr-page">
+      <div className="vr-container">
+        <header className="vr-header">
+          <div>
+            <h1 className="vr-title">Register Your Wedding Business</h1>
+            <p className="vr-subtitle">
+              Tell us about your services so we can showcase you to couples on Wedeption.
+            </p>
           </div>
-          <label className="full">
-            Business Address
-            <textarea
-              name="address"
-              rows="2"
-              value={formData.address}
-              onChange={handleChange}
-              required
-            />
-          </label>
-        </section>
-
-        <section>
-          <h2>2. Professional Information</h2>
-          <div className="form-grid two">
-            <label>
-              Years of Experience
-              <input
-                type="number"
-                name="experience"
-                min="0"
-                value={formData.experience}
-                onChange={handleChange}
-              />
-            </label>
-            <label>
-              Price Range (Start - End)
-              <input
-                type="text"
-                name="priceRange"
-                value={formData.priceRange}
-                onChange={handleChange}
-                placeholder="e.g. ₹50,000 - ₹3,00,000"
-              />
-            </label>
-          </div>
-
-          <div className="services-select">
-            <p>Select all services you provide</p>
-            <div className="services-grid">
-              {serviceOptions.map((service) => (
-                <label key={service}>
-                  <input
-                    type="checkbox"
-                    name="services"
-                    value={service}
-                    checked={formData.services.includes(service)}
-                    onChange={handleChange}
-                  />
-                  <span>{service}</span>
-                </label>
-              ))}
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <div className="vr-vendor-pill">
+              Logged in as{" "}
+              <strong>
+                {vendorUser.fullName || vendorUser.email || vendorUser.phone}
+              </strong>
             </div>
+            <button
+              type="button"
+              onClick={handleLogout}
+              disabled={loggingOut}
+              className="vr-logout-btn"
+            >
+              {loggingOut ? "Logging out..." : "Logout"}
+            </button>
           </div>
-        </section>
+        </header>
 
-        <section>
-          <h2>3. Online Presence</h2>
-          <div className="form-grid two">
-            <label>
-              Website URL (optional)
+        <form className="vr-form" onSubmit={handleSubmit}>
+          {/* Section A – Basic Business Details */}
+          <section className="vr-section">
+            <h2 className="vr-section-title">A. Basic Business Details</h2>
+
+            <div className="vr-grid">
+              <div className="vr-field">
+                <label>
+                  Business Name <span className="vr-required">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="businessName"
+                  value={form.businessName}
+                  onChange={handleChange}
+                  placeholder="e.g. Royal Weddings Caterers"
+                  required
+                />
+              </div>
+
+              <div className="vr-field">
+                <label>Contact Person</label>
+                <input
+                  type="text"
+                  name="contactPerson"
+                  value={form.contactPerson}
+                  onChange={handleChange}
+                  placeholder="Your full name"
+                />
+              </div>
+
+              <div className="vr-field">
+                <label>Email ID</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  placeholder="you@business.com"
+                />
+              </div>
+
+              <div className="vr-field">
+                <label>
+                  Phone Number <span className="vr-required">*</span>
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={form.phone}
+                  onChange={handleChange}
+                  placeholder="+91XXXXXXXXXX"
+                  required
+                />
+              </div>
+
+              <div className="vr-field">
+                <label>WhatsApp Number</label>
+                <input
+                  type="tel"
+                  name="whatsapp"
+                  value={form.whatsapp}
+                  onChange={handleChange}
+                  placeholder="+91XXXXXXXXXX"
+                />
+              </div>
+
+              <div className="vr-field">
+                <label>City</label>
+                <input
+                  type="text"
+                  name="city"
+                  value={form.city}
+                  onChange={handleChange}
+                  placeholder="e.g. Delhi, Mumbai"
+                />
+              </div>
+
+              <div className="vr-field">
+                <label>GST Number (if any)</label>
+                <input
+                  type="text"
+                  name="gstNumber"
+                  value={form.gstNumber}
+                  onChange={handleChange}
+                  placeholder="e.g. 22AAAAA0000A1Z5"
+                />
+              </div>
+
+              <div className="vr-field vr-field-full">
+                <label>Business Address</label>
+                <textarea
+                  name="address"
+                  value={form.address}
+                  onChange={handleChange}
+                  placeholder="Complete address of your office or studio"
+                  rows={2}
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* Section B – Professional Information */}
+          <section className="vr-section">
+            <h2 className="vr-section-title">B. Professional Information</h2>
+
+            <div className="vr-grid">
+              <div className="vr-field">
+                <label>Years of Experience</label>
+                <select
+                  name="experience"
+                  value={form.experience}
+                  onChange={handleChange}
+                >
+                  <option value="">Select experience</option>
+                  {EXPERIENCE_OPTIONS.map((exp) => (
+                    <option key={exp} value={exp}>
+                      {exp}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="vr-field">
+                <label>Average Price Range (per event)</label>
+                <select
+                  name="priceRange"
+                  value={form.priceRange}
+                  onChange={handleChange}
+                >
+                  <option value="">Select price range</option>
+                  {PRICE_RANGE_OPTIONS.map((range) => (
+                    <option key={range} value={range}>
+                      {range}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="vr-field">
+              <label>Services You Offer</label>
+              <div className="vr-chips">
+                {SERVICE_OPTIONS.map((service) => {
+                  const active = form.services.includes(service);
+                  return (
+                    <button
+                      key={service}
+                      type="button"
+                      className={`vr-chip ${active ? "vr-chip-active" : ""}`}
+                      onClick={() => handleServiceToggle(service)}
+                    >
+                      {service}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+
+          {/* Section C – Online Presence */}
+          <section className="vr-section">
+            <h2 className="vr-section-title">C. Online Presence</h2>
+
+            <div className="vr-grid">
+              <div className="vr-field">
+                <label>Website</label>
+                <input
+                  type="url"
+                  name="website"
+                  value={form.website}
+                  onChange={handleChange}
+                  placeholder="https://yourwebsite.com"
+                />
+              </div>
+
+              <div className="vr-field">
+                <label>Instagram</label>
+                <input
+                  type="url"
+                  name="instagram"
+                  value={form.instagram}
+                  onChange={handleChange}
+                  placeholder="Instagram profile link"
+                />
+              </div>
+
+              <div className="vr-field">
+                <label>Facebook</label>
+                <input
+                  type="url"
+                  name="facebook"
+                  value={form.facebook}
+                  onChange={handleChange}
+                  placeholder="Facebook page link"
+                />
+              </div>
+
+              <div className="vr-field">
+                <label>YouTube</label>
+                <input
+                  type="url"
+                  name="youtube"
+                  value={form.youtube}
+                  onChange={handleChange}
+                  placeholder="YouTube channel or video link"
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* Section D – Portfolio */}
+          <section className="vr-section">
+            <h2 className="vr-section-title">D. Portfolio</h2>
+
+            <div className="vr-field">
+              <label>Upload Sample Work (images)</label>
               <input
-                type="url"
-                name="website"
-                value={formData.website}
-                onChange={handleChange}
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handlePortfolioChange}
               />
-            </label>
-            <label>
-              Instagram Handle
+              <p className="vr-hint">
+                You can upload multiple images of your past work. These help couples trust your work.
+              </p>
+            </div>
+
+            {form.portfolioPreviews?.length > 0 && (
+              <div className="vr-portfolio-preview">
+                {form.portfolioPreviews.map((src, idx) => (
+                  <div key={idx} className="vr-portfolio-item">
+                    <img src={src} alt={`Portfolio ${idx + 1}`} />
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+
+          {/* Section E – Highlights */}
+          <section className="vr-section">
+            <h2 className="vr-section-title">E. Highlights</h2>
+
+            <div className="vr-field">
+              <label>Business Headline</label>
               <input
                 type="text"
-                name="instagram"
-                value={formData.instagram}
+                name="highlightTitle"
+                value={form.highlightTitle}
                 onChange={handleChange}
-                required
+                placeholder='e.g. "Luxury Wedding Caterers for Big-Fat Indian Weddings"'
               />
-            </label>
-            <label>
-              Facebook Handle (optional)
-              <input
-                type="text"
-                name="facebook"
-                value={formData.facebook}
+            </div>
+
+            <div className="vr-field">
+              <label>Why Should Couples Choose You?</label>
+              <textarea
+                name="whyChooseUs"
+                value={form.whyChooseUs}
                 onChange={handleChange}
+                placeholder="Describe your uniqueness, style, quality, and what makes you different."
+                rows={3}
               />
-            </label>
-            <label>
-              YouTube Channel Link (optional)
-              <input
-                type="url"
-                name="youtube"
-                value={formData.youtube}
+            </div>
+
+            <div className="vr-field">
+              <label>Current Offers (optional)</label>
+              <textarea
+                name="offers"
+                value={form.offers}
                 onChange={handleChange}
+                placeholder="Any discount, package offers, complimentary services, etc."
+                rows={2}
               />
-            </label>
-          </div>
-        </section>
+            </div>
+          </section>
 
-        <section>
-          <h2>4. Portfolio</h2>
-          <label className="full file-input">
-            Upload portfolio images
-            <input type="file" name="portfolioImages" multiple accept="image/*" />
-          </label>
+          {/* Section F – Charges & Terms */}
+          <section className="vr-section">
+            <h2 className="vr-section-title">F. Charges & Terms</h2>
 
-          <label className="full">
-            Portfolio / Video links
-            <textarea
-              name="portfolioLinks"
-              rows="2"
-              placeholder="Google Drive, Instagram, YouTube links, etc."
-            />
-          </label>
-        </section>
+            <div className="vr-grid">
+              <div className="vr-field vr-field-full">
+                <label>Cancellation Policy (for clients)</label>
+                <textarea
+                  name="userCancellationPolicy"
+                  value={form.userCancellationPolicy}
+                  onChange={handleChange}
+                  placeholder="Write what happens if a couple cancels. Refund policy, notice period, etc."
+                  rows={3}
+                />
+              </div>
 
-        <section>
-          <h2>5. Business Highlights</h2>
-          <label className="full">
-            Tell us about your brand
-            <textarea
-              name="brandStory"
-              rows="3"
-              value={formData.brandStory}
-              onChange={handleChange}
-              required
-            />
-          </label>
-          <label className="full">
-            Why should customers choose you?
-            <textarea
-              name="whyUs"
-              rows="3"
-              value={formData.whyUs}
-              onChange={handleChange}
-              required
-            />
-          </label>
-          <label className="full">
-            Exclusive deals or discounts
-            <textarea
-              name="deals"
-              rows="2"
-              value={formData.deals}
-              onChange={handleChange}
-            />
-          </label>
-        </section>
+              <div className="vr-field vr-field-full">
+                <label>Your Cancellation Policy</label>
+                <textarea
+                  name="vendorCancellationPolicy"
+                  value={form.vendorCancellationPolicy}
+                  onChange={handleChange}
+                  placeholder="What happens if you are unable to serve the booking?"
+                  rows={3}
+                />
+              </div>
 
-        <section>
-          <h2>6. Charges & Terms</h2>
-          <div className="form-grid two">
-            <label>
-              Overtime charges (if any)
-              <input
-                type="text"
-                name="overtime"
-                value={formData.overtime}
-                onChange={handleChange}
-              />
-            </label>
-            <label>
-              Payment terms
-              <input
-                type="text"
-                name="paymentTerms"
-                value={formData.paymentTerms}
-                onChange={handleChange}
-                placeholder="Advance %, remaining %, etc."
-              />
-            </label>
-          </div>
-          <label className="full">
-            User cancellation policy
-            <textarea
-              name="userCancellation"
-              rows="2"
-              value={formData.userCancellation}
-              onChange={handleChange}
-            />
-          </label>
-          <label className="full">
-            Vendor cancellation policy
-            <textarea
-              name="vendorCancellation"
-              rows="2"
-              value={formData.vendorCancellation}
-              onChange={handleChange}
-            />
-          </label>
-        </section>
+              <div className="vr-field vr-field-full">
+                <label>Payment Terms</label>
+                <textarea
+                  name="paymentTerms"
+                  value={form.paymentTerms}
+                  onChange={handleChange}
+                  placeholder="Advance percentage, remaining payment timelines, payment modes, etc."
+                  rows={3}
+                />
+              </div>
+            </div>
+          </section>
 
-        <div className="form-actions">
-          <button type="submit" disabled={loading}>
-            {loading ? "Sending OTP..." : "Submit for Review"}
-          </button>
-        </div>
-      </form>
+          {/* Actions */}
+          <footer className="vr-footer">
+            <button
+              type="button"
+              className="vr-btn vr-btn-secondary"
+              onClick={() => alert("Draft saving will be implemented later.")}
+            >
+              Save Draft
+            </button>
+            <button
+              type="submit"
+              className="vr-btn vr-btn-primary"
+              disabled={submitting}
+            >
+              {submitting ? "Submitting..." : "Submit for Review & Continue"}
+            </button>
+          </footer>
+        </form>
+      </div>
     </div>
   );
 };
 
-export default VendorRegistrationPage;
+export default VendorRegister;

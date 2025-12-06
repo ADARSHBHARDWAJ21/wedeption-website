@@ -1,0 +1,77 @@
+.vsp-page {
+  padding: 40px 16px;
+  min-height: 100vh;
+  background: #f3f4f6;
+}
+
+.vsp-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.vsp-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #111827;
+  text-align: center;
+}
+
+.vsp-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  text-align: center;
+  margin-bottom: 26px;
+}
+
+.vsp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 20px;
+}
+
+.vsp-card {
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+}
+
+.vsp-plan-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.vsp-plan-price {
+  font-size: 16px;
+  color: #1f2937;
+  margin: 6px 0 14px;
+  font-weight: 500;
+}
+
+.vsp-features {
+  margin: 0 0 18px;
+  padding-left: 18px;
+}
+
+.vsp-features li {
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.vsp-btn {
+  width: 100%;
+  padding: 10px 14px;
+  background: #111827;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.vsp-btn:hover {
+  background: #0f172a;
+}
