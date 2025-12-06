@@ -17,7 +17,7 @@ import VendorOtpPage from "./pages/VendorOtpPage";
 /* NEW vendor system pages */
 import VendorAuth from "./pages/VendorAuth";
 import VendorRegister from "./pages/VendorRegistrationPage";
-import VendorSubscription from "./pages/VendorSubscription";
+import VendorDashboard from "./pages/VendorDashboard";
 import VendorPayment from "./pages/VendorPayment";
 
 function App() {
@@ -43,7 +43,7 @@ function App() {
         {/* NEW vendor system routes */}
         <Route path="/vendor/auth" element={<VendorAuth />} />
         <Route path="/vendor/register" element={<VendorRegister />} />
-        <Route path="/vendor/subscription" element={<VendorSubscription />} />
+        <Route path="/vendor/dashboard" element={<VendorDashboard />} />
         <Route path="/vendor/payment" element={<VendorPayment />} />
 
         {/* 404 fallback */}

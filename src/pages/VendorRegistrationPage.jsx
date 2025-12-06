@@ -165,7 +165,7 @@ const VendorRegister = () => {
       setSubmitting(false);
 
       // Navigate to subscription page (UI only)
-      navigate("/vendor/subscription");
+      navigate("/vendor/dashboard");
     }, 600);
   };
 

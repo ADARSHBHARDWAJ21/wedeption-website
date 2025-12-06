@@ -94,11 +94,12 @@ const VendorLoginPage = () => {
         firebaseUid: user.uid,
         phone: phone,
         email: user.email || "",
+        fullName: user.displayName || "",
       };
       localStorage.setItem("wedeption_vendor_user", JSON.stringify(vendorUser));
 
-      // Redirect to vendor dashboard or registration
-      navigate("/vendor/register");
+      // Redirect to vendor dashboard after successful login
+      navigate("/vendor/dashboard");
     } catch (err) {
       console.error("OTP Verification Error:", err);
       let errorMessage = "OTP verification failed. ";
