@@ -113,7 +113,7 @@ const Footer = () => {
                     <input type="email" placeholder="Email" required />
                     <button type="submit" className="submit-btn">Submit</button>
                 </form>
-                <Link to="/vendor-registration" className="vendor-register-btn">
+                <Link to="/vendor/auth" className="vendor-register-btn">
                   Register as a Vendor
                 </Link>
             </div>

@@ -135,28 +135,48 @@ const VendorAuth = () => {
       const finalEmail = email || googleUserInfo?.email || user.email || "";
       const finalFullName = fullName || googleUserInfo?.displayName || user.displayName || "";
 
-      // Save or update vendor basic record (Supabase will be configured later)
-      try {
-        const { error: supaError } = await supabase
-          .from("vendor_users")
-          .upsert(
-            {
-              firebase_uid: firebaseUid,
-              full_name: finalFullName,
-              email: finalEmail,
-              phone: phone,
-              login_method: loginMethod,
-            },
-            { onConflict: "firebase_uid" }
-          );
+      // Save or update vendor basic record in Supabase
+      if (supabase) {
+        try {
+          const { data, error: supaError } = await supabase
+            .from("vendor_users")
+            .upsert(
+              {
+                firebase_uid: firebaseUid,
+                full_name: finalFullName,
+                email: finalEmail,
+                phone: phone,
+                login_method: loginMethod,
+                updated_at: new Date().toISOString(),
+              },
+              {
+                onConflict: "firebase_uid",
+              }
+            )
+            .select();
 
-        if (supaError) {
-          console.warn("Supabase not configured yet:", supaError);
-          // Continue anyway - Supabase will be configured later
+          if (supaError) {
+            console.error("Supabase error saving vendor user:", supaError);
+            // Log detailed error for debugging
+            if (supaError.message) {
+              console.error("Error message:", supaError.message);
+            }
+            if (supaError.details) {
+              console.error("Error details:", supaError.details);
+            }
+            if (supaError.hint) {
+              console.error("Error hint:", supaError.hint);
+            }
+            // Continue anyway - user can still proceed
+          } else {
+            console.log("Vendor user saved to Supabase successfully:", data);
+          }
+        } catch (err) {
+          console.error("Supabase operation failed:", err);
+          // Continue anyway - user can still proceed
         }
-      } catch (err) {
-        console.warn("Supabase operation failed (will be configured later):", err);
-        // Continue anyway - Supabase will be configured later
+      } else {
+        console.warn("Supabase client not initialized. Please check your environment variables.");
       }
 
       // Store locally with all user info

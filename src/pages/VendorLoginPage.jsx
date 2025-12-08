@@ -231,7 +231,7 @@ const VendorLoginPage = () => {
         <button
           type="button"
           className="vendor-help-btn"
-          onClick={() => navigate("/vendor-registration")}
+          onClick={() => navigate("/vendor/auth")}
         >
           Register as a Vendor
         </button>

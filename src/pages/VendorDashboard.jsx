@@ -13,23 +13,38 @@ const VendorDashboard = () => {
       const vendorUser = JSON.parse(localStorage.getItem("wedeption_vendor_user"));
       if (!vendorUser) return navigate("/vendor/auth");
 
-      const { data } = await supabase
-        .from("business_listings")
-        .select("subscription_plan, is_paid")
-        .eq("firebase_uid", vendorUser.firebaseUid)
-        .single();
-
-      if (data?.is_paid && data.subscription_plan === "premium") {
-        setPlan("premium");
-      } else {
+      if (!supabase) {
+        console.warn("Supabase not configured, using default free plan");
         setPlan("free");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from("business_listings")
+          .select("subscription_plan, is_paid")
+          .eq("firebase_uid", vendorUser.firebaseUid)
+          .single();
+
+        if (error) {
+          console.error("Error loading plan:", error);
+          setPlan("free"); // Default to free on error
+        } else if (data?.is_paid && data.subscription_plan === "premium") {
+          setPlan("premium");
+        } else {
+          setPlan("free");
+        }
+      } catch (err) {
+        console.error("Error loading subscription plan:", err);
+        setPlan("free"); // Default to free on error
       }
 
       setLoading(false);
     };
 
     loadPlan();
-  }, []);
+  }, [navigate]);
 
   const handleUpgrade = () => {
     navigate("/vendor/payment?plan=premium");
